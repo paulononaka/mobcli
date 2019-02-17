@@ -4,7 +4,8 @@ require_relative 'lib/android_assembler'
 require_relative 'lib/build_android_parser'
 require 'tty-command'
 
-# gradle_subprojects_property = `/Users/pnonaka/projects/gradlew properties --console=plain -q | grep "^subprojects:"`
+# gradle_subprojects_property = `./gradlew properties --console=plain -q | grep "^subprojects:"`
+
 gradle_subprojects_property = "subprojects: [
             project ':android-project1',
             project ':android-project2',

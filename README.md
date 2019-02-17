@@ -2,19 +2,25 @@
 
 > Mobcli is a command line tool for Android developers to automate the building of a Android mono-repo multi project (features team).
 
-## Setup
+## Todo
 
-This application depends on
+- Validate that current folder has gradle setup
+- Run from anywhere | fix setup 
+- Challenge 2
+- Validate if it find no projets
+- Unit test mobcli
+- Updates Readme
+
+## Requirements
+
+This application depends on:
+
+- Unix systems
 - Ruby 2.6.0
 
-In order to import and runs this project on Android Studio, please check your
-IDE plugins to meet these requirements (avoiding some nasty bugs).
+## Setup
 
-```
-./setup.sh
-```
-
-Add this project to your `$PATH` for access to the `mobcli` command-line utility.
+Run `./setup.sh` or manually add this project to your `$PATH` in order to access the `mobcli` command-line utility from anywhere:
 
    * For **bash**:
      ~~~ bash
@@ -33,12 +39,29 @@ Add this project to your `$PATH` for access to the `mobcli` command-line utility
 
 ## Usage
 
-TODO: Write usage instructions here
+```
+Usage: mobcli build-android [options]
+        --filter [application|library]
+                                     Filter by application or library
+    -h, --help                       Prints this help
+```
+
+Example:
+
+```
+mobcli build-android --filter library --verbose --stackstrace
+```
+
+Output:
+
+```
+[f1f627d6] Running ./gradlew android-project1:library-module-1 android-project2:library-module-2 --verbose --stackstrace
+```
 
 ## Building and running tests
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+After checking out the repo, run `bundle install` to install dependencies. Then, run `rake spec` to run the tests.
 
 ## Questions?
 
-I'm glad to awser, just ping me via email paulononaka@gmail.com 😄
+I'm glad to answer, just ping me via email paulononaka@gmail.com 😄
