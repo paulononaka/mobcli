@@ -45,4 +45,19 @@ RSpec.describe TestAssembler do
         "my.application.id/android.support.test.runner.AndroidJUnitRunner"
     end
   end
+
+  context "when report" do
+    it "generates a json report from the JUnit XML file" do
+      options = {}
+      options[:path] = 'spec/fixtures/test_junit_result_1.xml'
+      assembler = TestAssembler.new(options)
+
+      expect(assembler.report).to eq %{{
+  "name": "module1-android-api21",
+  "total": 3,
+  "failures": 2,
+  "success": 1
+}}
+    end
+  end
 end

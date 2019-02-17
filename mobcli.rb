@@ -5,6 +5,7 @@ require_relative 'lib/parsers/build_android_parser'
 require_relative 'lib/assemblers/test_assembler'
 require_relative 'lib/parsers/test_ls_parser'
 require_relative 'lib/parsers/test_run_parser'
+require_relative 'lib/parsers/test_report_parser'
 require 'tty-command'
 
 # gradle_props = `./gradlew properties --console=plain -q | grep "^subprojects:"`
@@ -29,12 +30,11 @@ when 'build-android'
   cmd.run(BuildAndroidAssembler.new(projects, params).build)
 when 'test'
   case second_arg
-  when 'ls'
-    puts TestAssembler.new(TestLsParser.new.parse_args(ARGV)).ls
-  when 'run'
-    cmd.run(TestAssembler.new(TestRunParser.new.parse_args(ARGV)).run)
+  when 'ls';  puts TestAssembler.new(TestLsParser.new.parse_args(ARGV)).ls
+  when 'run'; cmd.run(TestAssembler.new(TestRunParser.new.parse_args(ARGV)).run)
+  when 'report'; puts TestAssembler.new(TestReportParser.new.parse_args(ARGV)).report
   else
-    puts "missing argument: it should have at least one command [mobcli test ls] or [mobcli test run]"
+    puts "missing argument: it should have at least one command mobcli test [ls|run|report]"
     exit 1
   end
 else

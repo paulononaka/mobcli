@@ -1,5 +1,6 @@
 require 'danger'
 require 'junit/plugin'
+require 'json'
 
 class TestAssembler
 
@@ -26,5 +27,15 @@ class TestAssembler
     tests_output = tests.map(&:attributes).map { |a| "#{a[:classname]}##{a[:name]}" }.join(",")
 
     "adb shell am instrument -w -e debug false -e class '#{tests_output}' #{@application_id}/android.support.test.runner.AndroidJUnitRunner"
+  end
+
+  def report
+    result = @junit.instance_variable_get("@doc").nodes.first.attributes
+    JSON.pretty_generate({
+      name: result[:name],
+      total: result[:tests].to_i,
+      failures: result[:failures].to_i,
+      success: result[:tests].to_i - result[:failures].to_i
+    })
   end
 end
