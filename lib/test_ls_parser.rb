@@ -1,6 +1,6 @@
 require 'optparse'
 
-class TestParser
+class TestLsParser
 
   def parse_args(args)
     options = {}
