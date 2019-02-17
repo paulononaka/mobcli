@@ -1,4 +1,4 @@
-require './lib/build_android_assembler'
+require './lib/assemblers/build_android_assembler'
 
 RSpec.describe BuildAndroidAssembler do
 

@@ -1,4 +1,4 @@
-require './lib/test_assembler'
+require './lib/assemblers/test_assembler'
 
 RSpec.describe TestAssembler do
 

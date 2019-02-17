@@ -1,4 +1,4 @@
-require './lib/test_ls_parser'
+require './lib/parsers/test_ls_parser'
 
 RSpec.describe TestLsParser do
 

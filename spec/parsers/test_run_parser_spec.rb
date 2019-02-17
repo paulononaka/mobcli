@@ -1,4 +1,4 @@
-require './lib/test_run_parser'
+require './lib/parsers/test_run_parser'
 
 RSpec.describe TestRunParser do
 

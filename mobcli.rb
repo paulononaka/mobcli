@@ -1,10 +1,10 @@
 #!/usr/bin/env ruby
 
-require_relative 'lib/build_android_assembler'
-require_relative 'lib/build_android_parser'
-require_relative 'lib/test_assembler'
-require_relative 'lib/test_ls_parser'
-require_relative 'lib/test_run_parser'
+require_relative 'lib/assemblers/build_android_assembler'
+require_relative 'lib/parsers/build_android_parser'
+require_relative 'lib/assemblers/test_assembler'
+require_relative 'lib/parsers/test_ls_parser'
+require_relative 'lib/parsers/test_run_parser'
 require 'tty-command'
 
 # gradle_props = `./gradlew properties --console=plain -q | grep "^subprojects:"`

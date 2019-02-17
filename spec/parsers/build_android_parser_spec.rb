@@ -1,4 +1,4 @@
-require './lib/build_android_parser'
+require './lib/parsers/build_android_parser'
 
 RSpec.describe BuildAndroidParser do
 
