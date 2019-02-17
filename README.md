@@ -10,7 +10,8 @@
 - Unit test mobcli
 - Verify if check ./gradlew properties is fine
 - Validate that current folder has gradle setup
-- Updates Readme
+- Changes the logic of exiting
+- Review Readme
 
 ## Requirements
 

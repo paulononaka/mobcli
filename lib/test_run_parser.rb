@@ -32,6 +32,7 @@ class TestRunParser
     begin
       parser.parse(args)
       raise OptionParser::MissingArgument.new("--path is required") if options[:path].nil?
+      raise OptionParser::MissingArgument.new("--applicationId is required") if options[:applicationId].nil?
     rescue Exception => e
       puts e
       exit 1
