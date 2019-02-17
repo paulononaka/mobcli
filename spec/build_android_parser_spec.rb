@@ -7,62 +7,86 @@ RSpec.describe BuildAndroidParser do
     @android_parser = BuildAndroidParser.new
   end
 
-  context "when filtering" do
+  context "when parsing arguments" do
+    context "when filtering" do
 
-    it "returns options when filtering by application correctly" do
-      result = @android_parser.parse %w(build-android --filter application)
+      it "returns options when filtering by application correctly" do
+        params = @android_parser.parse_args %w(build-android --filter application)
 
-      expect(result[:options]).to eq({:filter => 'application'})
+        expect(params[:filter]).to eq('application')
+      end
+
+      it "returns options when filtering by library correctly" do
+        params = @android_parser.parse_args %w(build-android --filter library)
+
+        expect(params[:filter]).to eq('library')
+      end
+
+      it "exits when do not pass a parameter to --filter" do
+        expect { @android_parser.parse_args %w(build-android --filter)}.to raise_error(SystemExit)
+      end
+
+      it "exits when pass parameter is different from application or library" do
+        expect { @android_parser.parse_args %w(build-android --filter other)}.to raise_error(SystemExit)
+      end
+
+      it "explains when pass parameter different than application or library to --filter" do
+        expect {
+          begin @android_parser.parse_args %w(build-android --filter other)
+          rescue SystemExit # ignored
+          end
+        }.to output("missing argument: --filter should receive [application] or [library]\n").to_stdout
+      end
     end
 
-    it "returns options when filtering by library correctly" do
-      result = @android_parser.parse %w(build-android --filter library)
+    context "when passing extras to gradle" do
 
-      expect(result[:options]).to eq({:filter => 'library'})
+      it "returns extras correctly when passing extras after filtering" do
+        params = @android_parser.parse_args %w(build-android --filter application --verbose --stacktrace)
+
+        expect(params[:filter]).to eq('application')
+        expect(params[:extras]).to eq(%w(--verbose --stacktrace))
+      end
+
+      it "returns extras correctly when passing extras first" do
+        params = @android_parser.parse_args %w(build-android --verbose --stacktrace --filter application)
+
+        expect(params[:filter]).to eq('application')
+        expect(params[:extras]).to eq(%w(--verbose --stacktrace))
+      end
+
+      it "returns extras even if not filtering" do
+        params = @android_parser.parse_args %w(build-android --verbose --stacktrace)
+
+        expect(params[:filter]).to eq(nil)
+        expect(params[:extras]).to eq(%w(--verbose --stacktrace))
+      end
     end
 
-    it "exits when do not pass a parameter to --filter" do
-      expect { @android_parser.parse %w(build-android --filter)}.to raise_error(SystemExit)
-    end
-
-    it "exits when pass parameter is different from application or library" do
-      expect { @android_parser.parse %w(build-android --filter other)}.to raise_error(SystemExit)
-    end
-
-    it "explains when pass parameter is different from application or library" do
-      expect {
-        begin @android_parser.parse %w(build-android --filter other)
-        rescue SystemExit # ignored
-        end
-      }.to output("missing argument: --filter should receive [application] or [library]\n").to_stdout
+    it "exits when option is --help" do
+      expect { @android_parser.parse_args %w(build-android --help) }.to raise_error(SystemExit)
     end
   end
 
-  context "when passing extras to gradle" do
-
-    it "returns extras correctly when passing extras after filtering" do
-      params = @android_parser.parse %w(build-android --filter application --verbose --stacktrace)
-
-      expect(params[:options]).to eq({:filter => 'application'})
-      expect(params[:extras]).to eq(%w(--verbose --stacktrace))
+  context "when parsing gradle projects" do
+    before do
+      subprojects_property = "subprojects: [
+            project ':android-project1',
+            project ':android-project2',
+            project ':android-project1:app',
+            project ':android-project2:app',
+            project ':android-project1:library-module-1',
+            project ':android-project2:library-module-2'
+          ]"
+      @projects = BuildAndroidParser.new.parse_gradle_projects(subprojects_property)
     end
 
-    it "returns extras correctly when passing extras first" do
-      params = @android_parser.parse %w(build-android --filter application --verbose --stacktrace)
-
-      expect(params[:options]).to eq({:filter => 'application'})
-      expect(params[:extras]).to eq(%w(--verbose --stacktrace))
+    it "parses applications correctly" do
+      expect(@projects[:applications]).to eq %w(android-project1:app android-project2:app)
     end
 
-    it "returns extras even if not filtering" do
-      params = @android_parser.parse %w(build-android --verbose --stacktrace)
-
-      expect(params[:options]).to eq({})
-      expect(params[:extras]).to eq(%w(--verbose --stacktrace))
+    it "parses libraries correctly" do
+      expect(@projects[:libraries]).to eq %w(android-project1:library-module-1 android-project2:library-module-2)
     end
-  end
-
-  it "exits when option is --help" do
-    expect { @android_parser.parse %w(build-android --help) }.to raise_error(SystemExit)
   end
 end

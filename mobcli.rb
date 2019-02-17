@@ -4,8 +4,8 @@ require_relative 'lib/android_assembler'
 require_relative 'lib/build_android_parser'
 require 'tty-command'
 
-#subprojects_property = `/Users/pnonaka/projects/gradlew properties --console=plain -q | grep "^subprojects:"`
-subprojects_property = "subprojects: [
+# gradle_subprojects_property = `/Users/pnonaka/projects/gradlew properties --console=plain -q | grep "^subprojects:"`
+gradle_subprojects_property = "subprojects: [
             project ':android-project1',
             project ':android-project2',
             project ':android-project1:app',
@@ -14,14 +14,15 @@ subprojects_property = "subprojects: [
             project ':android-project2:library-module-2'
           ]"
 
-first_arg, *the_rest = ARGV
+first_arg, *_ = ARGV
 cmd = TTY::Command.new
-parser = BuildAndroidParser.new
 
 case first_arg
 when 'build-android'
-  params = parser.parse(ARGV) unless the_rest.empty?
-  cmd.run(AndroidAssembler.new(subprojects_property, params).build_android)
+  parser = BuildAndroidParser.new
+  projects = parser.parse_gradle_projects(gradle_subprojects_property)
+  params = parser.parse_args(ARGV)
+  cmd.run(AndroidAssembler.new(projects, params).build_android)
 else
   puts "missing argument: it should have at least one parameter [build-android] or [test]"
   exit 1
