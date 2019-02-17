@@ -2,6 +2,36 @@ require './lib/android_assembler'
 
 RSpec.describe AndroidAssembler do
 
+  context "with projects and no libs" do
+
+    before do
+      projects = {}
+      projects[:applications] = %w(android-project1:app android-project2:app)
+      @android_parser = AndroidAssembler.new(projects)
+    end
+
+    it "assemble all project" do
+      expect(@android_parser.build_android).to eq './gradlew '\
+            'android-project1:app:assembleDebug '\
+            'android-project2:app:assembleDebug'
+    end
+  end
+
+  context "with no projects but libs" do
+
+    before do
+      projects = {}
+      projects[:libraries] = %w(android-project1:library-module-1 android-project2:library-module-2)
+      @android_parser = AndroidAssembler.new(projects)
+    end
+
+    it "assemble all project" do
+      expect(@android_parser.build_android).to eq './gradlew '\
+            'android-project1:library-module-1:assembleAndroidTest '\
+            'android-project2:library-module-2:assembleAndroidTest'
+    end
+  end
+
   context "with projects and libs" do
 
     before do
@@ -17,10 +47,10 @@ RSpec.describe AndroidAssembler do
 
       it "assemble all project and libraries" do
         expect(@android_parser.build_android).to eq './gradlew '\
-            'android-project1:app '\
-            'android-project2:app '\
-            'android-project1:library-module-1 '\
-            'android-project2:library-module-2'
+            'android-project1:app:assembleDebug '\
+            'android-project2:app:assembleDebug '\
+            'android-project1:library-module-1:assembleAndroidTest '\
+            'android-project2:library-module-2:assembleAndroidTest'
       end
     end
 
@@ -28,14 +58,14 @@ RSpec.describe AndroidAssembler do
       it "assemble by application" do
         @android_parser = AndroidAssembler.new(@projects, {filter: 'application'})
 
-        expect(@android_parser.build_android).to eq './gradlew android-project1:app android-project2:app'
+        expect(@android_parser.build_android).to eq './gradlew android-project1:app:assembleDebug android-project2:app:assembleDebug'
       end
 
       it "assemble by library" do
         @android_parser = AndroidAssembler.new(@projects, {filter: 'library'})
 
         expect(@android_parser.build_android).to eq './gradlew '\
-            'android-project1:library-module-1 android-project2:library-module-2'
+            'android-project1:library-module-1:assembleAndroidTest android-project2:library-module-2:assembleAndroidTest'
       end
     end
 
@@ -44,7 +74,7 @@ RSpec.describe AndroidAssembler do
         @android_parser = AndroidAssembler.new(@projects, { filter: 'application', extras: %w(--verbose --stacktrace) })
 
         expect(@android_parser.build_android).to eq './gradlew '\
-            'android-project1:app android-project2:app '\
+            'android-project1:app:assembleDebug android-project2:app:assembleDebug '\
             '--verbose --stacktrace'
       end
 
@@ -52,8 +82,8 @@ RSpec.describe AndroidAssembler do
         @android_parser = AndroidAssembler.new(@projects, {extras: %w(--verbose --stacktrace) })
 
         expect(@android_parser.build_android).to eq './gradlew '\
-            'android-project1:app android-project2:app '\
-            'android-project1:library-module-1 android-project2:library-module-2 '\
+            'android-project1:app:assembleDebug android-project2:app:assembleDebug '\
+            'android-project1:library-module-1:assembleAndroidTest android-project2:library-module-2:assembleAndroidTest '\
             '--verbose --stacktrace'
       end
     end

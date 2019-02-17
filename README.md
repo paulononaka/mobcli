@@ -4,11 +4,11 @@
 
 ## Todo
 
-- Validate that current folder has gradle setup
-- Run from anywhere | fix setup 
 - Challenge 2
 - Validate if it find no projets
 - Unit test mobcli
+- Verify if check ./gradlew properties is fine
+- Validate that current folder has gradle setup
 - Updates Readme
 
 ## Requirements

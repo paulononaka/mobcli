@@ -3,8 +3,8 @@ class AndroidAssembler
   attr_accessor :applications, :libraries
 
   def initialize(projects, params = {})
-    @applications = projects[:applications]
-    @libraries = projects[:libraries]
+    @applications = (projects[:applications] || []).map! { |app| "#{app}:assembleDebug" }
+    @libraries = (projects[:libraries] || []).map! { |lib| "#{lib}:assembleAndroidTest" }
     @filter_by = params[:filter]
     @extras = params[:extras]
   end
@@ -17,7 +17,6 @@ class AndroidAssembler
     else @filter_by == 'library'
       params = @libraries.join(' ')
     end
-
     params << " #{@extras.join(' ')}" unless @extras.nil?
 
     "./gradlew #{params}"
