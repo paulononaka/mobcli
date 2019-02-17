@@ -5,7 +5,7 @@ class BuildAndroidParser
   def parse_args(args)
     options = {}
     parser = OptionParser.new do |opts|
-      opts.banner = "Usage: mobcli build-android [options]"
+      opts.banner = "Usage: mobcli build-android [options]. It assembles applications and libraries from a mono-repo Android multi-project."
 
       opts.on("--filter [application|library]", "Filter by application or library") do |filter|
         raise OptionParser::MissingArgument.new("should receive [application] or [library]") unless %w(application library).include? filter

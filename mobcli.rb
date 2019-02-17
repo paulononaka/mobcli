@@ -34,10 +34,10 @@ when 'test'
   when 'run'; cmd.run(TestAssembler.new(TestRunParser.new.parse_args(ARGV)).run)
   when 'report'; puts TestAssembler.new(TestReportParser.new.parse_args(ARGV)).report
   else
-    puts "missing argument: it should have at least one command mobcli test [ls|run|report]"
+    puts "missing argument: it should have at least one command `mobcli test [ls|run|report]`."
     exit 1
   end
 else
-  puts "missing argument: it should have at least one parameter [mobcli build-android] or [mobcli test]"
+  puts "missing argument: it should have at least one parameter `mobcli [build-android|test]`."
   exit 1
 end

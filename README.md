@@ -39,10 +39,12 @@ Run `./setup.sh` or manually add this project to your `$PATH` in order to access
      $ echo "export PATH=\"$PATH:`pwd`\"" >> ~/.zshrc
      ~~~
 
-## Usage
+# Usage
+
+## mobcli build-android
 
 ```
-Usage: mobcli build-android [options]
+Usage: mobcli build-android [options]. It assembles applications and libraries from a mono-repo Android multi-project.
         --filter [application|library]
                                      Filter by application or library
     -h, --help                       Prints this help
@@ -52,12 +54,83 @@ Example:
 
 ```
 mobcli build-android --filter library --verbose --stackstrace
+
 ```
 
-Output:
+Output example:
 
 ```
 [f1f627d6] Running ./gradlew android-project1:library-module-1 android-project2:library-module-2 --verbose --stackstrace
+```
+
+## mobcli test ls
+
+```
+Usage: mobcli test ls [options]. It lists all the unit tests in the JUnit XML report.
+        --path [PATH]                List the JUnit tests the have failed based on JUnit XML report
+    -h, --help                       Prints this help
+```
+
+Example:
+
+```
+mobcli test ls --path /path/test_junit_result_1.xml
+```
+
+Output example:
+
+```
+testNormalFlow
+swipeFlow
+changeOrientation
+```
+
+## mobcli test run
+
+```
+Usage: mobcli test run [options]. It runs tests through adb based on a JUnit XML report.
+        --path [PATH]                List the JUnit tests the have failed based on JUnit XML report
+        --filter [failure|passes]    Filter test by type of result
+        --applicationId [applicationId]
+                                     Informs the applicationId of the project
+    -h, --help                       Prints this help
+```
+
+Example:
+
+```
+mobcli test run --filter failure --applicationId br.package --path /path/test_junit_result_1.xml
+```
+
+Output example:
+
+```
+[f6cde24c] Running adb shell am instrument -w -e debug false -e class 'br.com.challenge.test.NewChallenge#swipeFlow,br.com.challenge.test.BaseActivity#changeOrientation' br.package/android.support.test.runner.AndroidJUnitRunner
+```
+
+## mobcli test report
+
+```
+Usage: mobcli test report [options]. It generates a Json report based on a JUnit XML report.
+        --path [PATH]                List the JUnit tests the have failed based on JUnit XML report
+    -h, --help                       Prints this help
+```
+
+Example:
+
+```
+mobcli test report --path /path/test_junit_result_1.xml
+```
+
+Output example:
+
+```
+{
+  "name": "module1-android-api21",
+  "total": 3,
+  "failures": 2,
+  "success": 1
+}
 ```
 
 ## Building and running tests
