@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="module1-android-api21" tests="3" failures="2" errors="0" skipped="0" time="173.0" timestamp="2019-01-16T11:52:27" hostname="localhost">
+  <testcase name="testNormalFlow" classname="br.com.challenge.test.NewChallenge" time="5.638"/>
+  <testcase name="swipeFlow" classname="br.com.challenge.test.NewChallenge" time="6.049">
+    <failure>android.support.test.espresso.NoMatchingViewException: No views in hierarchy found matching: with id:...</failure>
+  </testcase>
+  <testcase name="changeOrientation" classname="br.com.challenge.test.BaseActivity" time="6.049">
+    <failure>android.support.test.espresso.NoMatchingViewException...</failure>
+  </testcase>
+</testsuite>

@@ -1,6 +1,6 @@
 require 'optparse'
 
-class TestLsParser
+class TestParser
 
   def parse_args(args)
     options = {}
@@ -8,6 +8,7 @@ class TestLsParser
       opts.banner = "Usage: mobcli test ls [options]"
 
       opts.on("--path [PATH]", "List the JUnit tests the have failed based on JUnit XML report") do |path|
+        raise OptionParser::MissingArgument.new("a [PATH] is required") if path.nil?
         options[:path] = path
       end
 
@@ -17,7 +18,14 @@ class TestLsParser
       end
     end
 
-    parser.parse(args)
+    begin
+      parser.parse(args)
+      raise OptionParser::MissingArgument.new("--path is required") if options[:path].nil?
+    rescue Exception => e
+      puts e
+      exit 1
+    end
+
     options
   end
 
