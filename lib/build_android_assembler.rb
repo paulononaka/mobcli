@@ -9,7 +9,7 @@ class BuildAndroidAssembler
     @extras = params[:extras]
   end
 
-  def build_android
+  def build
     if @filter_by.nil?
       params = (@applications + @libraries).join(' ')
     elsif @filter_by == 'application'
