@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require_relative 'lib/android_assembler'
+require_relative 'lib/build_android_assembler'
 require_relative 'lib/build_android_parser'
 require 'tty-command'
 
@@ -23,7 +23,11 @@ when 'build-android'
   parser = BuildAndroidParser.new
   projects = parser.parse_gradle_projects(gradle_subprojects_property)
   params = parser.parse_args(ARGV)
-  cmd.run(AndroidAssembler.new(projects, params).build_android)
+  cmd.run(BuildAndroidAssembler.new(projects, params).build_android)
+when 'test'
+  parser = TestLsParser.new
+  params = parser.parse_args(ARGV)
+  cmd.run(BuildAndroidAssembler.new(params).build_android)
 else
   puts "missing argument: it should have at least one parameter [build-android] or [test]"
   exit 1

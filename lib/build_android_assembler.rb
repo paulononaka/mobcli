@@ -1,4 +1,4 @@
-class AndroidAssembler
+class BuildAndroidAssembler
 
   attr_accessor :applications, :libraries
 

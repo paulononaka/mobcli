@@ -1,17 +1,15 @@
-require './lib/android_assembler'
+require './lib/build_android_assembler'
 
-RSpec.describe AndroidAssembler do
+RSpec.describe BuildAndroidAssembler do
 
   context "with projects and no libs" do
 
-    before do
+    it "assemble all project" do
       projects = {}
       projects[:applications] = %w(android-project1:app android-project2:app)
-      @android_parser = AndroidAssembler.new(projects)
-    end
-
-    it "assemble all project" do
-      expect(@android_parser.build_android).to eq './gradlew '\
+      parser = BuildAndroidAssembler.new(projects)
+      
+      expect(parser.build_android).to eq './gradlew '\
             'android-project1:app:assembleDebug '\
             'android-project2:app:assembleDebug'
     end
@@ -19,14 +17,12 @@ RSpec.describe AndroidAssembler do
 
   context "with no projects but libs" do
 
-    before do
+    it "assemble all project" do
       projects = {}
       projects[:libraries] = %w(android-project1:library-module-1 android-project2:library-module-2)
-      @android_parser = AndroidAssembler.new(projects)
-    end
-
-    it "assemble all project" do
-      expect(@android_parser.build_android).to eq './gradlew '\
+      parser = BuildAndroidAssembler.new(projects)
+      
+      expect(parser.build_android).to eq './gradlew '\
             'android-project1:library-module-1:assembleAndroidTest '\
             'android-project2:library-module-2:assembleAndroidTest'
     end
@@ -41,12 +37,11 @@ RSpec.describe AndroidAssembler do
     end
 
     context "without filtering" do
-      before do
-        @android_parser = AndroidAssembler.new(@projects)
-      end
 
       it "assemble all project and libraries" do
-        expect(@android_parser.build_android).to eq './gradlew '\
+        parser = BuildAndroidAssembler.new(@projects)
+        
+        expect(parser.build_android).to eq './gradlew '\
             'android-project1:app:assembleDebug '\
             'android-project2:app:assembleDebug '\
             'android-project1:library-module-1:assembleAndroidTest '\
@@ -55,33 +50,35 @@ RSpec.describe AndroidAssembler do
     end
 
     context "filtering" do
-      it "assemble by application" do
-        @android_parser = AndroidAssembler.new(@projects, {filter: 'application'})
 
-        expect(@android_parser.build_android).to eq './gradlew android-project1:app:assembleDebug android-project2:app:assembleDebug'
+      it "assemble by application" do
+        parser = BuildAndroidAssembler.new(@projects, {filter: 'application'})
+
+        expect(parser.build_android).to eq './gradlew android-project1:app:assembleDebug android-project2:app:assembleDebug'
       end
 
       it "assemble by library" do
-        @android_parser = AndroidAssembler.new(@projects, {filter: 'library'})
+        parser = BuildAndroidAssembler.new(@projects, {filter: 'library'})
 
-        expect(@android_parser.build_android).to eq './gradlew '\
+        expect(parser.build_android).to eq './gradlew '\
             'android-project1:library-module-1:assembleAndroidTest android-project2:library-module-2:assembleAndroidTest'
       end
     end
 
     context "pass extras to gradle" do
-      it "when filtering" do
-        @android_parser = AndroidAssembler.new(@projects, { filter: 'application', extras: %w(--verbose --stacktrace) })
 
-        expect(@android_parser.build_android).to eq './gradlew '\
+      it "when filtering" do
+        parser = BuildAndroidAssembler.new(@projects, {filter: 'application', extras: %w(--verbose --stacktrace) })
+
+        expect(parser.build_android).to eq './gradlew '\
             'android-project1:app:assembleDebug android-project2:app:assembleDebug '\
             '--verbose --stacktrace'
       end
 
       it "when not filtering" do
-        @android_parser = AndroidAssembler.new(@projects, {extras: %w(--verbose --stacktrace) })
+        parser = BuildAndroidAssembler.new(@projects, {extras: %w(--verbose --stacktrace) })
 
-        expect(@android_parser.build_android).to eq './gradlew '\
+        expect(parser.build_android).to eq './gradlew '\
             'android-project1:app:assembleDebug android-project2:app:assembleDebug '\
             'android-project1:library-module-1:assembleAndroidTest android-project2:library-module-2:assembleAndroidTest '\
             '--verbose --stacktrace'
