@@ -12,8 +12,8 @@ class TestRunParser
         options[:path] = path
       end
 
-      opts.on("--filter [failure|passes|errors|skipped]", "Filter test by type of result") do |filter|
-        raise OptionParser::MissingArgument.new("should receive one of the options [failure|passes|errors|skipped]") unless
+      opts.on("--filter [failure|passes]", "Filter test by type of result") do |filter|
+        raise OptionParser::MissingArgument.new("should receive one of the options [failure|passes]") unless
             %w(failure passes errors skipped).include? filter
         options[:filter] = filter
       end

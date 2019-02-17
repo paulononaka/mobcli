@@ -8,7 +8,7 @@ RSpec.describe BuildAndroidParser do
   end
 
   context "when parsing arguments" do
-    context "when filtering" do
+    context "--filter" do
 
       it "returns options when filtering by application correctly" do
         params = @parser.parse_args %w(build-android --filter application)

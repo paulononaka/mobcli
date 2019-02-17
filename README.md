@@ -5,6 +5,7 @@
 ## Todo
 
 - Challenge 2
+- Break output with "\" as is in the pdf
 - Validate if it find no projets
 - Unit test mobcli
 - Verify if check ./gradlew properties is fine

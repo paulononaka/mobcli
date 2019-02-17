@@ -46,7 +46,7 @@ successful() {
 
     printf "\n%sMobcli successfully setup.%s\n" "$GREEN" "$NORMAL"
 
-    printf "\n%sRun mobcli [build-android|test] in a Gradle multi-project folder.\n\n" "$YELLOW"
+    printf "\n%sMake sure you run mobcli build-android in a Gradle multi-project folder.\n\n" "$YELLOW"
 }
 
 setColors
