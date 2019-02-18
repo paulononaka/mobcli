@@ -24,8 +24,7 @@ class TestLsParser
     rescue SystemExit
       exit 1
     rescue Exception => e
-      puts e
-      exit 1
+      puts e; exit 1
     end
 
     options

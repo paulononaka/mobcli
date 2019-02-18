@@ -1,10 +1,10 @@
 require './lib/parsers/test_ls_parser'
 
-RSpec.describe TestLsParser do
+RSpec.describe TestReportParser do
 
   before do
     allow($stdout).to receive(:write)
-    @parser = TestLsParser.new
+    @parser = TestReportParser.new
   end
 
   context "when report" do

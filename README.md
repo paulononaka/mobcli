@@ -4,12 +4,8 @@
 
 ## Todo
 
-- Validate if it find no projets
-- Unit test mobcli
-- Verify if check ./gradlew properties is fine
-- Validate that current folder has gradle setup
+- Validate if it find has no projets
 - Changes the logic of exiting
-- Review Readme
 
 ## Requirements
 
