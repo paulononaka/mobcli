@@ -19,13 +19,13 @@ RSpec.describe TestAssembler do
       options[:applicationId] = 'my.application.id'
       assembler = TestAssembler.new(options)
 
-      expect(assembler.run).to eq "adb shell am instrument "\
-        "-w "\
-        "-e debug false "\
+      expect(assembler.run).to eq "adb shell am instrument \\\n"\
+        "-w \\\n"\
+        "-e debug false \\\n"\
         "-e class '"\
         "br.com.challenge.test.NewChallenge#testNormalFlow,"\
         "br.com.challenge.test.NewChallenge#swipeFlow,"\
-        "br.com.challenge.test.BaseActivity#changeOrientation' "\
+        "br.com.challenge.test.BaseActivity#changeOrientation' \\\n"\
         "my.application.id/android.support.test.runner.AndroidJUnitRunner"
     end
 
@@ -36,12 +36,12 @@ RSpec.describe TestAssembler do
       options[:applicationId] = 'my.application.id'
       assembler = TestAssembler.new(options)
 
-      expect(assembler.run).to eq "adb shell am instrument "\
-        "-w "\
-        "-e debug false "\
+      expect(assembler.run).to eq "adb shell am instrument \\\n"\
+        "-w \\\n"\
+        "-e debug false \\\n"\
         "-e class '"\
         "br.com.challenge.test.NewChallenge#swipeFlow,"\
-        "br.com.challenge.test.BaseActivity#changeOrientation' "\
+        "br.com.challenge.test.BaseActivity#changeOrientation' \\\n"\
         "my.application.id/android.support.test.runner.AndroidJUnitRunner"
     end
   end

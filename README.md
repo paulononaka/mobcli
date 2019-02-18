@@ -4,8 +4,6 @@
 
 ## Todo
 
-- Challenge 2
-- Break output with "\" as is in the pdf
 - Validate if it find no projets
 - Unit test mobcli
 - Verify if check ./gradlew properties is fine
@@ -22,22 +20,7 @@ This application depends on:
 
 ## Setup
 
-Run `./setup.sh` or manually add this project to your `$PATH` in order to access the `mobcli` command-line utility from anywhere:
-
-   * For **bash**:
-     ~~~ bash
-     $ echo "export PATH=\"$PATH:`pwd`\"" >> ~/.bash_profile
-     ~~~
-
-   * For **Ubuntu Desktop**:
-     ~~~ bash
-     $ echo "export PATH=\"$PATH:`pwd`\"" >> ~/.bashrc
-     ~~~
-
-   * For **Zsh**:
-     ~~~ zsh
-     $ echo "export PATH=\"$PATH:`pwd`\"" >> ~/.zshrc
-     ~~~
+Run `./setup.sh` and `mobcli` command-line utility will be available from anywhere.
 
 # Usage
 

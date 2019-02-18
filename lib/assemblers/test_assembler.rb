@@ -26,7 +26,7 @@ class TestAssembler
 
     tests_output = tests.map(&:attributes).map { |a| "#{a[:classname]}##{a[:name]}" }.join(",")
 
-    "adb shell am instrument -w -e debug false -e class '#{tests_output}' #{@application_id}/android.support.test.runner.AndroidJUnitRunner"
+    "adb shell am instrument \\\n-w \\\n-e debug false \\\n-e class '#{tests_output}' \\\n#{@application_id}/android.support.test.runner.AndroidJUnitRunner"
   end
 
   def report

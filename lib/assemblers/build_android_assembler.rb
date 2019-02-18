@@ -11,13 +11,13 @@ class BuildAndroidAssembler
 
   def build
     if @filter_by.nil?
-      params = (@applications + @libraries).join(' ')
-    elsif @filter_by == 'application'
-      params = @applications.join(' ')
-    else @filter_by == 'library'
-      params = @libraries.join(' ')
+      params = (@applications + @libraries).join(" \\\n")
+    elsif @filter_by == "application"
+      params = @applications.join(" \\\n")
+    else @filter_by == "library"
+      params = @libraries.join(" \\\n")
     end
-    params << " #{@extras.join(' ')}" unless @extras.nil?
+    params << " \\\n#{@extras.join(" ")}" unless @extras.nil?
 
     "./gradlew #{params}"
   end

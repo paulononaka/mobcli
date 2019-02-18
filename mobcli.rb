@@ -8,16 +8,16 @@ require_relative 'lib/parsers/test_run_parser'
 require_relative 'lib/parsers/test_report_parser'
 require 'tty-command'
 
-# gradle_props = `./gradlew properties --console=plain -q | grep "^subprojects:"`
+gradle_props = `./gradlew properties --console=plain -q | grep "^subprojects:"`
 
-gradle_props = "subprojects: [
-            project ':android-project1',
-            project ':android-project2',
-            project ':android-project1:app',
-            project ':android-project2:app',
-            project ':android-project1:library-module-1',
-            project ':android-project2:library-module-2'
-          ]"
+# gradle_props = "subprojects: [
+#             project ':android-project1',
+#             project ':android-project2',
+#             project ':android-project1:app',
+#             project ':android-project2:app',
+#             project ':android-project1:library-module-1',
+#             project ':android-project2:library-module-2'
+#           ]"
 
 first_arg, second_arg, *_ = ARGV
 cmd = TTY::Command.new
