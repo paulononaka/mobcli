@@ -27,8 +27,8 @@ checkRubyInstalled() {
     ruby_version="$(ruby --version)"
 
     if ! [[ $ruby_version =~ .*2.6.0.* ]]; then
-        printf "%sI require Ruby 2.6.0 but it's not installed. Aborting.%s\n" "$RED" "$NORMAL"
-        exit 1
+        printf "\n%s*** I have being built over Ruby 2.6.0 but it's not installed. Can't make sure I work on other versions :). ***%s\n\n" "$RED" "$NORMAL"
+        read -srp "Press any key to start..." -n1 -s
     fi
 }
 

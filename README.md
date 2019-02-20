@@ -2,10 +2,6 @@
 
 > Mobcli is a command line tool for Android developers to automate the building of an Android mono-repo multi project (features team).
 
-## Todo
-
-- Validate if it find has no projets and identify app by com.android.application plugin
-
 ## Requirements
 
 This application depends on:
@@ -25,7 +21,7 @@ Run `./setup.sh` and `mobcli` command-line utility will be available from anywhe
 Usage: mobcli build-android [options]. It assembles applications and libraries from an Android mono-repo multi project.
 
 Make sure to run it in folder with project Gradle Wrapper setup and its settings.gradle proper setup.
-Be aware that this command only works for "two levels" of Gradle multi-project, that is, 
+Be aware that this command only works for "two levels" of Gradle multi-project, that is,
 the current folder must have Gradle setup and each project must have its modules.
 
         --filter [application|library]
