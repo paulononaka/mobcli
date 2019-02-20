@@ -24,20 +24,13 @@ class TestRunParser
       end
 
       opts.on("-h", "--help", "Prints this help") do
-        puts opts
-        exit
+        raise ParserExit, opts
       end
     end
 
-    begin
-      parser.parse(args)
-      raise OptionParser::MissingArgument.new("--path is required") if options[:path].nil?
-      raise OptionParser::MissingArgument.new("--applicationId is required") if options[:applicationId].nil?
-    rescue SystemExit
-      exit 1
-    rescue Exception => e
-      puts e; exit 1
-    end
+    parser.parse(args)
+    raise OptionParser::MissingArgument.new("--path is required") if options[:path].nil?
+    raise OptionParser::MissingArgument.new("--applicationId is required") if options[:applicationId].nil?
 
     options
   end

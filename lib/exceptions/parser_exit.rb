@@ -1,0 +1,2 @@
+class ParserExit < StandardError
+end

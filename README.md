@@ -1,11 +1,10 @@
 # Mobcli
 
-> Mobcli is a command line tool for Android developers to automate the building of a Android mono-repo multi project (features team).
+> Mobcli is a command line tool for Android developers to automate the building of an Android mono-repo multi project (features team).
 
 ## Todo
 
-- Validate if it find has no projets
-- Changes the logic of exiting
+- Validate if it find has no projets and identify app by com.android.application plugin
 
 ## Requirements
 
@@ -23,7 +22,7 @@ Run `./setup.sh` and `mobcli` command-line utility will be available from anywhe
 ## mobcli build-android
 
 ```
-Usage: mobcli build-android [options]. It assembles applications and libraries from a mono-repo Android multi-project.
+Usage: mobcli build-android [options]. It assembles applications and libraries from an Android mono-repo multi project.
         --filter [application|library]
                                      Filter by application or library
     -h, --help                       Prints this help
@@ -33,7 +32,6 @@ Example:
 
 ```
 mobcli build-android --filter library --verbose --stackstrace
-
 ```
 
 Output example:
@@ -114,7 +112,7 @@ Output example:
 
 ## Building and running tests
 
-After checking out the repo, run `bundle install` to install dependencies. Then, run `rake spec` to run the tests.
+After checking out the repo, run `bundle install` to install dependencies. Then execute `rake spec` to run the tests.
 
 ## Questions?
 

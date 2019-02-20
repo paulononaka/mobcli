@@ -7,7 +7,7 @@ RSpec.describe MobcliParser do
   end
 
   it "runs and parse mobcli build-android" do
-    allow(@mobcli).to receive(:gradle_props).and_return "subprojects: [
+    allow_any_instance_of(BuildAndroidParser).to receive(:gradle_props).and_return "subprojects: [
         project ':android-project1',
         project ':android-project2',
         project ':android-project1:app',

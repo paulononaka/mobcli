@@ -1,4 +1,6 @@
+require 'optparse'
 require './lib/parsers/test_ls_parser'
+require './lib/exceptions/parser_exit'
 
 RSpec.describe TestLsParser do
 
@@ -15,23 +17,15 @@ RSpec.describe TestLsParser do
     end
 
     it "exits when do not pass --path" do
-      expect { @parser.parse_args %w(test ls)}.to raise_error(SystemExit)
+      expect { @parser.parse_args %w(test ls)}.to raise_error(OptionParser::MissingArgument, /--path is required/)
     end
 
-    it "exits when do not pass a parameter to --path" do
-      expect { @parser.parse_args %w(test ls --path)}.to raise_error(SystemExit)
-    end
-
-    it "explains when do not pass a parameter to --path" do
-      expect {
-        begin @parser.parse_args %w(test ls --path)
-        rescue SystemExit # ignored
-        end
-      }.to output("missing argument: --path a [PATH] is required\n").to_stdout
+    it "raises error when do not pass a parameter to --path" do
+      expect { @parser.parse_args %w(test ls --path) }.to raise_error(OptionParser::MissingArgument, /missing argument: --path a \[PATH\] is required/)
     end
 
     it "exits when option is --help" do
-      expect { @parser.parse_args %w(test ls --help) }.to raise_error(SystemExit)
+      expect { @parser.parse_args %w(test ls --help) }.to raise_error(ParserExit, /Usage: mobcli test ls \[options\]. It lists all the unit tests/)
     end
   end
 end

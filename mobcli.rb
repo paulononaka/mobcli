@@ -3,14 +3,15 @@
 require_relative 'lib/parsers/mobcli_parser'
 require 'tty-command'
 
-result = MobcliParser.new.run
+begin
+  result = MobcliParser.new.run
 
-if result[:run]
-  begin
-    TTY::Command.new.run(result[:output])
-  rescue Exception
-    exit 1
+  if result[:run]
+      TTY::Command.new.run(result[:output])
+  else
+    puts result[:output]
   end
-else
-  puts result[:output]
+rescue Exception => e
+  puts e
+  exit 1
 end

@@ -1,3 +1,4 @@
+require 'optparse'
 require './lib/parsers/build_android_parser'
 
 RSpec.describe BuildAndroidParser do
@@ -23,19 +24,11 @@ RSpec.describe BuildAndroidParser do
       end
 
       it "exits when do not pass a parameter to --filter" do
-        expect { @parser.parse_args %w(build-android --filter)}.to raise_error(SystemExit)
+        expect { @parser.parse_args %w(build-android --filter) }.to raise_error(OptionParser::MissingArgument, /--filter should receive \[application\] or \[library\]/)
       end
 
-      it "exits when pass parameter is different from application or library" do
-        expect { @parser.parse_args %w(build-android --filter other)}.to raise_error(SystemExit)
-      end
-
-      it "explains when pass parameter different than application or library to --filter" do
-        expect {
-          begin @parser.parse_args %w(build-android --filter other)
-          rescue SystemExit # ignored
-          end
-        }.to output("missing argument: --filter should receive [application] or [library]\n").to_stdout
+      it "raises error when pass parameter different than application or library to --filter" do
+          expect { @parser.parse_args %w(build-android --filter other) }.to raise_error(OptionParser::MissingArgument, /--filter should receive \[application\] or \[library\]/)
       end
     end
 
@@ -64,7 +57,8 @@ RSpec.describe BuildAndroidParser do
     end
 
     it "exits when option is --help" do
-      expect { @parser.parse_args %w(build-android --help) }.to raise_error(SystemExit)
+      expect { @parser.parse_args %w(build-android --help) }.to raise_error(ParserExit,
+        /Usage: mobcli build-android \[options\]. It assembles applications and libraries from an/)
     end
   end
 
@@ -78,7 +72,8 @@ RSpec.describe BuildAndroidParser do
             project ':android-project1:library-module-1',
             project ':android-project2:library-module-2'
           ]"
-      @projects = @parser.parse_gradle_projects(subprojects_property)
+      allow(@parser).to receive(:gradle_props).and_return subprojects_property
+      @projects = @parser.parse_gradle_projects
     end
 
     it "parses applications correctly" do
