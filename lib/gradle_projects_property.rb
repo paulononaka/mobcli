@@ -9,7 +9,11 @@ module GradleProjectsProperty
     #             project ':android-project1:library-module-1',
     #             project ':android-project2:library-module-2'
     #           ]"
-    `./gradlew properties --console=plain -q | grep "^subprojects:"`
+    output = `./gradlew properties --console=plain -q | grep "^subprojects:"`; result = $?.success?
+    unless result
+      raise ParserExit, "\n*** Do you have a working ./gradlew and a Gradle project setup in this folder? ***\n\n"
+    end
+    output
   end
 end
 
