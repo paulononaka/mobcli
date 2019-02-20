@@ -5,7 +5,6 @@ require './lib/exceptions/parser_exit'
 RSpec.describe TestLsParser do
 
   before do
-    allow($stdout).to receive(:write)
     @parser = TestLsParser.new
   end
 

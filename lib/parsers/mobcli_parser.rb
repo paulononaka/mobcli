@@ -2,6 +2,7 @@ require_relative '../assemblers/build_android_assembler'
 require_relative '../assemblers/test_assembler'
 require_relative '../command_line_arguments'
 require_relative 'build_android_parser'
+require_relative 'gradle_parser'
 require_relative 'test_ls_parser'
 require_relative 'test_run_parser'
 require_relative 'test_report_parser'
@@ -14,9 +15,8 @@ class MobcliParser
     first_arg, second_arg, *_ = argv
     case first_arg
     when 'build-android'
-      parser = BuildAndroidParser.new
-      projects = parser.parse_gradle_projects
-      params = parser.parse_args(argv)
+      params = BuildAndroidParser.new.parse_args(argv)
+      projects = GradleParser.new.parse_gradle_projects
       result[:run] = true
       result[:output] = BuildAndroidAssembler.new(projects, params).build
     when 'test'

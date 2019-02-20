@@ -3,7 +3,6 @@ require './lib/parsers/test_run_parser'
 RSpec.describe TestRunParser do
 
   before do
-    allow($stdout).to receive(:write)
     @parser = TestRunParser.new
   end
 
