@@ -23,6 +23,11 @@ Run `./setup.sh` and `mobcli` command-line utility will be available from anywhe
 
 ```
 Usage: mobcli build-android [options]. It assembles applications and libraries from an Android mono-repo multi project.
+
+Make sure to run it in folder with project Gradle Wrapper setup and its settings.gradle proper setup.
+Be aware that this command only works for "two levels" of Gradle multi-project, that is, 
+the current folder must have Gradle setup and each project must have its modules.
+
         --filter [application|library]
                                      Filter by application or library
     -h, --help                       Prints this help

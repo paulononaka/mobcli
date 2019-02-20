@@ -8,19 +8,14 @@ RSpec.describe MobcliParser do
 
   it "runs and parse mobcli build-android" do
     allow_any_instance_of(GradleParser).to receive(:gradle_props).and_return "subprojects: [
-        project ':android-project1',
-        project ':android-project2',
-        project ':android-project1:app',
-        project ':android-project2:app',
-        project ':android-project1:library-module-1',
-        project ':android-project2:library-module-2'
+        project ':spec:gradle_app_fixture',
+        project ':spec:gradle_lib_fixture'
       ]"
     allow(@mobcli).to receive(:argv).and_return %w(build-android --filter library --info)
 
     result = @mobcli.run
 
-    expect(result[:output]).to eq("./gradlew android-project1:library-module-1:assembleAndroidTest \\\n"\
-      "android-project2:library-module-2:assembleAndroidTest \\\n"\
+    expect(result[:output]).to eq("./gradlew spec:gradle_lib_fixture:assembleAndroidTest \\\n"\
       "--info")
   end
 
